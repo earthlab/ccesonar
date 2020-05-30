@@ -1,0 +1,26 @@
+Package: ccesonar
+Title: Research compendium for the paper: Predicting subsurface sonar observations with satellite-derived ocean surface data in the California Current Ecosystem
+Version: 0.0.1
+Authors@R:
+person(given = "Max",
+           family = "Joseph",
+           role = c("aut", "cre"),
+           email = "maxwell.b.joseph@colorado.edu",
+           comment = c(ORCID = "0000-0002-7745-9990"))
+Description: Gets the data, runs the analysis, and generates a pdf.
+License: MIT + file LICENSE
+ByteCompile: true
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0
+Imports: 
+    bookdown,
+    here, 
+    parallel,
+    tidymodels,
+    tidyverse, 
+    ranger, 
+    sf
+Suggests: devtools,
+    git2r
