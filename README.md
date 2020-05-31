@@ -9,7 +9,7 @@ This repository contains the data and code for our paper:
 Our pre-print is online here:
 
 > Gadeken KR, Joseph MB, McGlinchy J, Karnauskas KB, Wall CC, (2020). *Predicting subsurface sonar observations with satellite-derived ocean surface data in the California Current Ecosystem*. bioRxiv. Online at
-> <https://doi.org/xxx/xxx>
+> <https://doi.org/10.1101/2020.05.29.124669>
 
 ### How to cite
 
