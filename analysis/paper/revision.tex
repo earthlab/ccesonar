@@ -303,56 +303,34 @@ For ease of visualization we round all negative values to 0 in subsequent discus
 To understand how predictive performance varied as a function of sonar frequency and depth bin, we compute $R^2$ values for model-frequency-depth bin combinations.
 
 To test temporal forecasting in areas that have been sampled previously, we  evaluated the ability of the model to predict the data from 2015 using $R^2$ and with graphical predictive checks.
-The location of sonar data, latitude bins (for the cross-validation), and test data are shown in Fig \ref{fig:fig1}.
+The location of sonar data, latitude bins (for the cross-validation), and test data are shown in Fig 1.
 All models were fit in R version 3.6.2 using the ranger package \cite{ranger,rcore}.
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=1\textwidth]{map_plot.pdf}
-    \caption{{\bf Acoustic data coverage by year.} Color represents the ten cross validation (CV) folds that correspond to latitudinal bins. Each point represents a spatial location along a trackline where data were collected. The 2015 points are black, and represent a withheld test set that was not used in spatial cross validation.}
-    \label{fig:fig1}
-\end{figure}
+{\bf Figure 1. Acoustic data coverage by year.} Color represents the ten cross validation (CV) folds that correspond to latitudinal bins. Each point represents a spatial location along a trackline where data were collected. The 2015 points are black, and represent a withheld test set that was not used in spatial cross validation.
 
 
 % Results and Discussion can be combined.
 \section*{Results}
 The performance of the full and reduced models indicate that satellite data may help to predict sonar observations under some circumstances, though the overall performance of all models was relatively low. 
 Across all depth bins and frequencies, holdout $R^2$ values from spatial cross-validation range from 0 to 0.315 (mean = 0.059) for the full model, and 0 to 0.245 (mean = 0.042 for the reduced model).
-For many of the latitude, sonar frequency, depth bin combinations, performance of both models was quite poor (with many $R^2$ values less than or equal to zero (Fig \ref{fig:fig3}). 
+For many of the latitude, sonar frequency, depth bin combinations, performance of both models was quite poor (with many $R^2$ values less than or equal to zero (Fig 2). 
 For the shallow water depth bin, where we expected the satellite data to provide the most useful information, performance of the full model tended to be higher than performance from the reduced model for a subset of the latitude bins, and $R^2$ for the shallow water bin exceeded 0.1 just once south of 40.4 degrees latitude.
-Notable decreases in predictive performance are apparent in the extreme southernmost and northernmost latitude bins (Fig \ref{fig:fig3}).
+Notable decreases in predictive performance are apparent in the extreme southernmost and northernmost latitude bins (Fig 2).
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=.9\textwidth]{baseline-model-split.pdf}
-    \caption{{\bf Spatial cross-validation.} Spatial cross-validation performance comparison for the full model (black) inclusive of satellite observations, and the reduced model (blue) that excludes satellite observations, faceted by depth bin and sonar frequency (kHz). The x-axis displays the $R^2$ value on the withheld latitude bin, and the y-axis displays the latitude bin that was withheld during cross-validation. No results are shown for depth bin/frequency combinations for which the sonar data are known to be unreliable.}
-    \label{fig:fig3}
-\end{figure}
+{\bf Figure 2. Spatial cross-validation.} Spatial cross-validation performance comparison for the full model (black) inclusive of satellite observations, and the reduced model (blue) that excludes satellite observations, faceted by depth bin and sonar frequency (kHz). The x-axis displays the $R^2$ value on the withheld latitude bin, and the y-axis displays the latitude bin that was withheld during cross-validation. No results are shown for depth bin/frequency combinations for which the sonar data are known to be unreliable.
 
 Results from the withheld test set containing data from 2015 suggest that prediction in years with no data are generally worse than predictions to new spatial regions in years where data are available. 
 All raw $R^2$ values were less than zero for the full and reduced models (and were set to zero after rescaling as described in the methods).
 To investigate this, we computed correlations between the observed and predicted values by depth bin and sonar frequency, and visualized the relationship between observed and predicted values. 
-In one case, the model predictions were actually negatively correlated with the true values, but all other correlations between the true and predicted values were positive (Fig \ref{fig:fig4}). 
-Notably, in terms of correlation, the full model consistently outperformed the reduced model for the shallow depth bin (Fig \ref{fig:fig4}).
+In one case, the model predictions were actually negatively correlated with the true values, but all other correlations between the true and predicted values were positive (Fig 3). 
+Notably, in terms of correlation, the full model consistently outperformed the reduced model for the shallow depth bin (Fig 3).
 However, $R^2$ values were negative or zero despite these positive correlations because of systematic downward bias in model predictions. 
-Specifically, the true average log NASC values were always higher than the predicted averages (Fig \ref{fig:fig5}).
+Specifically, the true average log NASC values were always higher than the predicted averages (Fig 4).
 Thus, although the model could make predictions about where log NASC would be relatively low or high (hence the positive correlations), bias in these predictions resulted in extremely low $R^2$ values. 
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=1\textwidth]{test-plot.pdf}
-    \caption{{\bf Withheld 2015 test set correlations.} Pearson correlation coefficients between the true and predicted log NASC values in the 2015 test set, with black representing the full model and blue representing the reduced model. The x-axis represents the correlation values, and the y-axis represents depth bins. The panels represent the sonar frequency (kHz).}
-    \label{fig:fig4}
-\end{figure}
+{\bf Figure 3. Withheld 2015 test set correlations.} Pearson correlation coefficients between the true and predicted log NASC values in the 2015 test set, with black representing the full model and blue representing the reduced model. The x-axis represents the correlation values, and the y-axis represents depth bins. The panels represent the sonar frequency (kHz).
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=1\textwidth]{test-scatter.pdf}
-    \caption{{\bf Observed vs. true values in the test set.} Density surface plots for the relationship between predicted and true (observed) log NASC values in 584,917 observations from the withheld 2015 test set and the full model, by depth bin (panel rows) and sonar frequency in kHz (panel columns). Yellow represents high point density, and dark blue represents low point density. A dashed one-to-one line is shown in every panel, the mean values of true and predicted log NASC are shown as red dots. Red dots far from the dashed line indicate bias in the mean predictions. Pearson correlation coefficients are printed in the upper left of each panel.}
-    \label{fig:fig5}
-\end{figure}
-
-
+{\bf Figure 4. Observed vs. true values in the test set.} Density surface plots for the relationship between predicted and true (observed) log NASC values in 584,917 observations from the withheld 2015 test set and the full model, by depth bin (panel rows) and sonar frequency in kHz (panel columns). Yellow represents high point density, and dark blue represents low point density. A dashed one-to-one line is shown in every panel, the mean values of true and predicted log NASC are shown as red dots. Red dots far from the dashed line indicate bias in the mean predictions. Pearson correlation coefficients are printed in the upper left of each panel.
 
 \section*{Discussion}
 We found equivocal evidence for satellite data providing useful information for predicting water-column sonar observations. 
@@ -406,29 +384,277 @@ This work was supported by the University of Colorado Boulder Grand Challenge's 
 % here. See http://journals.plos.org/plosone/s/latex for 
 % step-by-step instructions.
 % 
-\bibliography{references}
+\begin{thebibliography}{10}
 
-%\begin{thebibliography}{10}
+\bibitem{davison2015acoustic}
+Davison PC, Koslow JA, Kloser RJ.
+\newblock Acoustic biomass estimation of mesopelagic fish: backscattering from
+  individuals, populations, and communities.
+\newblock ICES Journal of Marine Science. 2015;72(5):1413--1424.
 
-%\bibitem{bib1}
-%Conant GC, Wolfe KH.
-%\newblock {{T}urning a hobby into a job: how duplicated genes find new
-%  functions}.
-%\newblock Nat Rev Genet. 2008 Dec;9(12):938--950.
+\bibitem{benoit2001target}
+Benoit-Bird KJ, Au WW.
+\newblock Target strength measurements of Hawaiian mesopelagic boundary
+  community animals.
+\newblock The Journal of the Acoustical Society of America.
+  2001;110(2):812--819.
 
-%\bibitem{bib2}
-%Ohno S.
-%\newblock Evolution by gene duplication.
-%\newblock London: George Alien \& Unwin Ltd. Berlin, Heidelberg and New York:
-%  Springer-Verlag.; 1970.
+\bibitem{trenkel2013fisheries}
+Trenkel VM, Berger L.
+\newblock A fisheries acoustic multi-frequency indicator to inform on large
+  scale spatial patterns of aquatic pelagic ecosystems.
+\newblock Ecological indicators. 2013;30:72--79.
 
-%\bibitem{bib3}
-%Magwire MM, Bayer F, Webster CL, Cao C, Jiggins FM.
-%\newblock {{S}uccessive increases in the resistance of {D}rosophila to viral
-%  infection through a transposon insertion followed by a {D}uplication}.
-%\newblock PLoS Genet. 2011 Oct;7(10):e1002337.
+\bibitem{towler2003visualizing}
+Towler RH, Jech JM, Horne JK.
+\newblock Visualizing fish movement, behavior, and acoustic backscatter.
+\newblock Aquatic Living Resources. 2003;16(3):277--282.
 
-%\end{thebibliography}
+\bibitem{kaartvedt2009use}
+Kaartvedt S, R{\o}stad A, Klevjer TA, Staby A.
+\newblock Use of bottom-mounted echo sounders in exploring behavior of
+  mesopelagic fishes.
+\newblock Marine Ecology Progress Series. 2009;395:109--118.
+
+\bibitem{jech2012aggregative}
+Jech JM, Stroman F.
+\newblock Aggregative patterns of pre-spawning Atlantic herring on Georges Bank
+  from 1999-2010.
+\newblock Aquatic Living Resources. 2012;25(1):1--14.
+
+\bibitem{simmonds2008fisheries}
+Simmonds J, MacLennan DN.
+\newblock Fisheries acoustics: theory and practice.
+\newblock John Wiley \& Sons; 2008.
+
+\bibitem{zwolinski2011predicting}
+Zwolinski JP, Emmett RL, Demer DA.
+\newblock Predicting habitat to optimize sampling of Pacific sardine (Sardinops
+  sagax).
+\newblock ICES Journal of Marine Science. 2011;68(5):867--879.
+
+\bibitem{lee2007euphotic}
+Lee Z, Weidemann A, Kindle J, Arnone R, Carder KL.
+\newblock Euphotic zone depth: Its derivation and implication to ocean-color
+  remote sensing.
+\newblock J Geophys Res. 2007;112.
+
+\bibitem{ressler2005spatial}
+Ressler PH, Brodeur RD, Peterson WT, Pierce SD, Vance PM, R{\o}stad A, et~al.
+\newblock The spatial distribution of euphausiid aggregations in the Northern
+  California Current during August 2000.
+\newblock Deep Sea Research Part II: Topical Studies in Oceanography.
+  2005;52(1-2):89--108.
+
+\bibitem{benoit2004diel}
+Benoit-Bird KJ, Au WW.
+\newblock Diel migration dynamics of an island-associated sound-scattering
+  layer.
+\newblock Deep Sea Research Part I: Oceanographic Research Papers.
+  2004;51(5):707--719.
+
+\bibitem{santora2011spatial}
+Santora JA, Ralston S, Sydeman WJ.
+\newblock Spatial organization of krill and seabirds in the central California
+  Current.
+\newblock ICES Journal of Marine Science. 2011;68(7):1391--1402.
+
+\bibitem{RUDNICK201764}
+Rudnick DL, Zaba KD, Todd RE, Davis RE.
+\newblock A climatology of the California Current System from a network of
+  underwater gliders.
+\newblock Progress in Oceanography. 2017;154:64 -- 106.
+\newblock doi:{https://doi.org/10.1016/j.pocean.2017.03.002}.
+
+\bibitem{KAHRU201594}
+Kahru M, Jacox MG, Lee Z, Kudela RM, Manzano-Sarabia M, Mitchell BG.
+\newblock Optimized multi-satellite merger of primary production estimates in
+  the California Current using inherent optical properties.
+\newblock Journal of Marine Systems. 2015;147:94 -- 102.
+\newblock doi:{https://doi.org/10.1016/j.jmarsys.2014.06.003}.
+
+\bibitem{ROSE2015348}
+Rose KA, Fiechter J, Curchitser EN, Hedstrom K, Bernal M, Creekmore S, et~al.
+\newblock Demonstration of a fully-coupled end-to-end model for small pelagic
+  fish using sardine and anchovy in the California Current.
+\newblock Progress in Oceanography. 2015;138:348 -- 380.
+\newblock doi:{https://doi.org/10.1016/j.pocean.2015.01.012}.
+
+\bibitem{demer2012prediction}
+Demer DA, Zwolinski JP, Byers KA, Cutter GR, Renfree JS, Sessions TS, et~al.
+\newblock Prediction and confirmation of seasonal migration of Pacific sardine
+  (Sardinops sagax) in the California Current Ecosystem.
+\newblock Fishery Bulletin. 2012;110(1):52--70.
+
+\bibitem{ressler2007pacific}
+Ressler PH, Holmes JA, Fleischer GW, Thomas RE, Cooke KC.
+\newblock Pacific hake, Merluccius productus, autecology: a timely review.
+\newblock Marine Fisheries Review. 2007;69(1):1.
+
+\bibitem{nwfsc2011sonar}
+NWFSC. Water Column Sonar Data Collection (SH1103, EK60), National Centers for
+  Environmental Information, NOAA; 2011.
+\newblock Available from: \url{doi:10.7289/V53J39XH}.
+
+\bibitem{nwfsc2012sonar}
+NWFSC. Water Column Sonar Data Collection (SH1204, EK60), National Centers for
+  Environmental Information, NOAA; 2012.
+\newblock Available from: \url{doi:10.7289/V5ZS2TF7}.
+
+\bibitem{nwfsc2013sonar}
+NWFSC. Water Column Sonar Data Collection (SH1305, EK60), National Centers for
+  Environmental Information, NOAA; 2013.
+\newblock Available from: \url{doi:10.7289/V57942N7}.
+
+\bibitem{nwfsc2015sonar}
+NWFSC. Water Column Sonar Data Collection (SH1507, EK60), National Centers for
+  Environmental Information, NOAA; 2015.
+\newblock Available from: \url{doi:10.7289/V5D50JZQ}.
+
+\bibitem{foote1987calibration}
+Foote KG, Knudsen HP, Vestness G, Maclennan DN, Simmonds J.
+\newblock Calibration of acoustic instruments for fish density estimation: A
+  practical guide.
+\newblock ICES Cooperative Research Report. 1987;144:1--69.
+
+\bibitem{de2007post}
+De~Robertis A, Higginbottom I.
+\newblock A post-processing technique to estimate the signal-to-noise ratio and
+  remove echosounder background noise.
+\newblock ICES Journal of Marine Science. 2007;64(6):1282--1291.
+
+\bibitem{ryan2015reducing}
+Ryan TE, Downie RA, Kloser RJ, Keith G.
+\newblock Reducing bias due to noise and attenuation in open-ocean echo
+  integration data.
+\newblock ICES Journal of Marine Science. 2015;72(8):2482--2493.
+
+\bibitem{maclennan2002consistent}
+MacLennan DN, Fernandes PG, Dalen J.
+\newblock A consistent approach to definitions and symbols in fisheries
+  acoustics.
+\newblock ICES Journal of Marine Science. 2002;59(2):365--369.
+
+\bibitem{whitehead1985clupeoid}
+Whitehead PJ.
+\newblock Clupeoid Fishes of the World (Suborder Clupeoidei): An annotated and
+  illustrated catalogue of the herrings, sardines, pilchards, sprats, shads,
+  anchovies and wolf-herrings. vol.~7.
+\newblock FAO; 1985.
+
+\bibitem{de2010development}
+De~Robertis A, McKelvey DR, Ressler PH.
+\newblock Development and application of an empirical multifrequency method for
+  backscatter classification.
+\newblock Canadian Journal of Fisheries and Aquatic Sciences.
+  2010;67(9):1459--1474.
+
+\bibitem{korneliussen2002operational}
+Korneliussen RJ, Ona E.
+\newblock An operational system for processing and visualizing multi-frequency
+  acoustic data.
+\newblock ICES Journal of Marine Science. 2002;59(2):293--313.
+
+\bibitem{benoit2009effects}
+Benoit-Bird KJ.
+\newblock The effects of scattering-layer composition, animal size, and
+  numerical density on the frequency response of volume backscatter.
+\newblock ICES Journal of Marine Science. 2009;66(3):582--593.
+
+\bibitem{nasa2014moderate}
+NASA Goddard Space Flight~Center OBPG Ocean Ecology~Laboratory.
+  Moderate-resolution Imaging Spectroradiometer (MODIS) Aqua and Terra ocean
+  color data; 2014.
+
+\bibitem{gebco}
+GEBCO. GEBCO 30 arc-second grid; 2014.
+\newblock Available from:
+  \url{https://www.gebco.net/data_and_products/gridded_bathymetry_data/gebco_30_second_grid/}.
+
+\bibitem{di2016multi}
+Di~Lorenzo E, Mantua N.
+\newblock Multi-year persistence of the 2014/15 North Pacific marine heatwave.
+\newblock Nature Climate Change. 2016;6(11):1042--1047.
+
+\bibitem{ranger}
+Wright MN, Ziegler A.
+\newblock {ranger}: A Fast Implementation of Random Forests for High
+  Dimensional Data in {C++} and {R}.
+\newblock Journal of Statistical Software. 2017;77(1):1--17.
+\newblock doi:{10.18637/jss.v077.i01}.
+
+\bibitem{rcore}
+{R Core Team}. R: A Language and Environment for Statistical Computing; 2019.
+\newblock Available from: \url{https://www.R-project.org/}.
+
+\bibitem{taylor2012sharp}
+Taylor AG, Goericke R, Landry MR, Selph KE, Wick DA, Roadman MJ.
+\newblock Sharp gradients in phytoplankton community structure across a frontal
+  zone in the California Current Ecosystem.
+\newblock Journal of Plankton Research. 2012;34(9):778--789.
+
+\bibitem{powell2015covariability}
+Powell JR, Ohman MD.
+\newblock Covariability of zooplankton gradients with glider-detected density
+  fronts in the Southern California Current System.
+\newblock Deep Sea Research Part II: Topical Studies in Oceanography.
+  2015;112:79--90.
+
+\bibitem{chen2017formation}
+Chen L, Li T, Wang B, Wang L.
+\newblock Formation mechanism for 2015/16 super El Ni{\~n}o.
+\newblock Scientific reports. 2017;7(2975).
+
+\bibitem{hu2017extreme}
+Hu S, Fedorov AV.
+\newblock The extreme El Ni{\~n}o of 2015--2016: the role of westerly and
+  easterly wind bursts, and preconditioning by the failed 2014 event.
+\newblock Climate Dynamics. 2019;52:7339--–7357.
+
+\bibitem{jacox2016impacts}
+Jacox MG, Hazen EL, Zaba KD, Rudnick DL, Edwards CA, Moore AM, et~al.
+\newblock Impacts of the 2015--2016 El Ni{\~n}o on the California Current
+  System: Early assessment and comparison to past events.
+\newblock Geophysical Research Letters. 2016;43(13):7072--7080.
+
+\bibitem{zaba2020volume}
+Zaba K, Rudnick DL, Cornuelle B, Gopalakrishnan G, Mazloff M.
+\newblock Volume and heat budgets in the coastal California Current System:
+  Means, annual cycles and interannual anomalies of 2014-2016.
+\newblock Journal of Physical Oceanography. 2020;2020.
+
+\bibitem{liu2015multivariable}
+Liu M, Liu X, Liu D, Ding C, Jiang J.
+\newblock Multivariable integration method for estimating sea surface salinity
+  in coastal waters from in situ data and remotely sensed data using random
+  forest algorithm.
+\newblock Computers \& geosciences. 2015;75:44--56.
+
+\bibitem{song2015learning}
+Song W, Dolan JM, Cline D, Xiong G.
+\newblock Learning-based algal bloom event recognition for oceanographic
+  decision support system using remote sensing data.
+\newblock Remote Sensing. 2015;7(10):13564--13585.
+
+\bibitem{demer2014corroboration}
+Demer DA, Zwolinski JP.
+\newblock Corroboration and refinement of a method for differentiating landings
+  from two stocks of Pacific sardine (Sardinops sagax) in the California
+  Current.
+\newblock ICES Journal of Marine Science. 2014;71(2):328--335.
+
+\bibitem{copeland2016influences}
+Copeland AM.
+\newblock Influences of spatial and temporal variability of sound scattering
+  layers on deep diving odontocete behavior.
+\newblock PhD Thesis, University of Hawai'i at Manoa. 2016;0(0).
+
+\bibitem{joseph2020}
+Joseph MB.
+\newblock Neural hierarchical models of ecological populations.
+\newblock Ecology Letters. 2020;23(4):734--747.
+
+\end{thebibliography}
 
 
 

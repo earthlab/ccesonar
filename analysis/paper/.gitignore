@@ -2,3 +2,7 @@
 *.bbl
 *.log
 *.gz
+*.aux
+*.blg
+*.out
+*.eps
